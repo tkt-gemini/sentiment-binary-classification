@@ -47,7 +47,7 @@ Phân tích cảm xúc (Sentiment Analysis) là bài toán phân loại văn b�
 
 ### UIT-VSFC (Vietnamese Students' Feedback Corpus)
 
-**Nguồn:** [UIT-VSFC](https://github.com/sonvx/vietnam-sentiment-corpus)
+**Nguồn:** [UIT-VSFC](https://huggingface.co/datasets/uitnlp/vietnamese_students_feedback)
 
 ### Mô tả
 
@@ -78,8 +78,7 @@ Dataset bao gồm các đánh giá của sinh viên về giảng viên, được
 ### Download Dataset
 
 ```bash
-# Tải về từ GitHub
-git clone https://github.com/sonvx/vietnam-sentiment-corpus.git
+git clone https://huggingface.co/datasets/uitnlp/vietnamese_students_feedback
 ```
 
 ---
@@ -362,10 +361,10 @@ big-ex/
 
 ### Thông tin nhóm
 
-| Họ và tên | Mã SV | Email |
-|-----------|-------|-------|
-| Hoàng Hải Đăng | 12423009 | [email1@student.edu.vn] |
-| Trần Khánh Toàn | 12423035 | tkt310505@gmail.com |
+| Họ và tên | Mã SV |
+|-----------|-------|
+| Hoàng Hải Đăng | 12423009 |
+| Trần Khánh Toàn | 12423035 |
 
 **Lớp:** 124231
 **Giảng viên hướng dẫn:** Assoc. Prof. Dr. Van-Hau Nguyen
@@ -374,7 +373,7 @@ big-ex/
 
 ## 📚 Tài Liệu Tham Khảo
 
-1. **Dataset:** [UIT-VSFC](https://github.com/sonvx/vietnam-sentiment-corpus) - Vietnamese Students' Feedback Corpus
+1. **Dataset:** [UIT-VSFC](https://huggingface.co/datasets/uitnlp/vietnamese_students_feedback) - Vietnamese Students' Feedback Corpus
 2. **Vietnamese NLP:** [Underthesea](https://github.com/undertheseanlp/underthesea) - Vietnamese Natural Language Processing
 3. **Scikit-learn:** [Example](https://scikit-learn.org/stable/auto_examples/text/index.html)
 

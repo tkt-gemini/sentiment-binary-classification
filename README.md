@@ -1,6 +1,6 @@
 # 🎭 Phân Tích Cảm Xúc Tiếng Việt - Vietnamese Sentiment Analysis
 
-[![Python](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/)
+[![Python](https://img.shields.io/badge/Python-3.12%2B-blue)](https://www.python.org/)
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-1.5.0-orange)](https://scikit-learn.org/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
@@ -31,7 +31,7 @@ Phân tích cảm xúc (Sentiment Analysis) là bài toán phân loại văn b�
 
 - Xây dựng hệ thống tự động phân loại cảm xúc cho văn bản tiếng Việt
 - So sánh hiệu quả của các thuật toán Machine Learning: Logistic Regression, Linear SVM, Naive Bayes
-- Đạt được độ chính xác cao (> 92%) trên tập test
+- Đạt được độ chính xác cao (> 90%) trên tập test
 - Xây dựng ứng dụng demo thân thiện với người dùng
 
 ### Ứng dụng thực tế
@@ -47,14 +47,13 @@ Phân tích cảm xúc (Sentiment Analysis) là bài toán phân loại văn b�
 
 ### UIT-VSFC (Vietnamese Students' Feedback Corpus)
 
-**Nguồn:** [UIT-VSFC GitHub Repository](https://github.com/sonvx/vietnam-sentiment-corpus)
+**Nguồn:** [UIT-VSFC](https://github.com/sonvx/vietnam-sentiment-corpus)
 
 ### Mô tả
 
 Dataset bao gồm các đánh giá của sinh viên về giảng viên, được gán nhãn với 3 loại cảm xúc:
 - `positive`: Đánh giá tích cực
 - `negative`: Đánh giá tiêu cực  
-- `neutral`: Đánh giá trung lập (đã loại bỏ trong dự án này)
 
 ### Thống kê
 
@@ -72,8 +71,7 @@ Dataset bao gồm các đánh giá của sinh viên về giảng viên, được
 ```json
 {
   "sentence": "Thầy giảng bài rất hay và dễ hiểu",
-  "sentiment": "positive",
-  "topic": "lecturer"
+  "sentiment": "positive"
 }
 ```
 
@@ -82,12 +80,6 @@ Dataset bao gồm các đánh giá của sinh viên về giảng viên, được
 ```bash
 # Tải về từ GitHub
 git clone https://github.com/sonvx/vietnam-sentiment-corpus.git
-
-# Hoặc tải trực tiếp các file:
-# - UIT-VSFC-train.json
-# - UIT-VSFC-dev.json
-# - UIT-VSFC-test.json
-# Đặt vào thư mục archive/
 ```
 
 ---
@@ -96,7 +88,6 @@ git clone https://github.com/sonvx/vietnam-sentiment-corpus.git
 
 ### 1. **Thu thập & Chuẩn bị dữ liệu**
    - Load dữ liệu từ file JSON
-   - Lọc chỉ lấy topic `lecturer` và loại bỏ nhãn `neutral`
    - Encode nhãn: `negative=0`, `positive=1`
 
 ### 2. **Tiền xử lý (Preprocessing)**
@@ -104,9 +95,7 @@ git clone https://github.com/sonvx/vietnam-sentiment-corpus.git
 Pipeline tiền xử lý bao gồm các bước:
 
 ```python
-Text → Lowercase → Unicode Normalization → Remove URLs/Emoji 
-    → Remove Duplicate Chars → Remove Punctuation 
-    → Word Tokenization (underthesea) → Remove Stopwords → Clean Text
+Text → Lowercase → Unicode Normalization → Remove URLs/Emoji → Remove Duplicate Chars → Remove Punctuation → Word Tokenization (underthesea) → Remove Stopwords → Clean Text
 ```
 
 **Chi tiết:**
@@ -174,7 +163,7 @@ LinearSVC(
 )
 ```
 
-**Optimal Threshold:** 0.46 (thay vì 0.5 mặc định)
+**Optimal Threshold:** 0.46
 
 ---
 
@@ -208,7 +197,7 @@ LinearSVC(
 ### Nhận xét
 
 ✅ **Ưu điểm:**
-- Độ chính xác cao (>92%) trên tất cả các metrics
+- Độ chính xác cao (>90%) trên tất cả các metrics
 - Cân bằng tốt giữa Precision và Recall
 - Generalization tốt (train-dev-test performance ổn định)
 - Hiệu quả với cả 2 classes (Positive & Negative)
@@ -248,49 +237,25 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-**Các thư viện chính:**
-- `scikit-learn==1.5.0` - Machine Learning
-- `pandas==2.1.3` - Data manipulation
-- `numpy==1.26.2` - Numerical computing
-- `underthesea==1.3.5` - Vietnamese NLP
-- `streamlit==1.41.1` - Web app
-- `matplotlib`, `seaborn` - Visualization
-
 ---
 
 ### 2. Chuẩn bị dữ liệu
 
-Tải dataset UIT-VSFC và đặt vào thư mục `archive/`:
+dataset UIT-VSFC đã cài sẵn trong thư mục `../data/`:
 
 ```
-archive/
+../data/
 ├── UIT-VSFC-train.json
 ├── UIT-VSFC-dev.json
 ├── UIT-VSFC-test.json
 └── vietnamese-stopwords.txt
 ```
 
-**Download:** https://github.com/sonvx/vietnam-sentiment-corpus
-
 ---
 
 ### 3. Chạy Training
 
-#### Option 1: Sử dụng script Python
-
-```bash
-cd app
-python train.py
-```
-
-Script sẽ:
-- Load và tiền xử lý dữ liệu
-- Train model Linear SVM
-- Tìm optimal threshold
-- Đánh giá trên train/dev/test
-- Lưu model vào `app/models/`
-
-#### Option 2: Sử dụng Jupyter Notebook
+#### Sử dụng Jupyter Notebook
 
 ```bash
 jupyter notebook main.ipynb
@@ -305,17 +270,16 @@ Chạy tất cả các cells để:
 **Output:**
 ```
 app/models/
-├── sentiment_pipeline.pkl    # Model pipeline (TF-IDF + Classifier)
-├── label_encoder.pkl          # Label encoder
-├── stopwords.pkl              # Stopwords set
-└── model_metadata.pkl         # Model info & metrics
+├── sentiment_pipeline.pkl  # Model pipeline (TF-IDF + Classifier)
+├── label_encoder.pkl       # Label encoder
+└── model_metadata.pkl      # Model info & metrics
 ```
 
 ---
 
 ### 4. Chạy Demo/Inference
 
-#### A. Demo Script (Command Line)
+#### Demo Script (Command Line)
 
 ```bash
 cd demo
@@ -326,20 +290,7 @@ Features:
 - Test với các câu mẫu có sẵn
 - Interactive mode: nhập câu để phân tích real-time
 
-#### B. Demo Notebook
-
-```bash
-cd demo
-jupyter notebook demo.ipynb
-```
-
-Notebook bao gồm:
-- Test với câu đơn
-- Batch prediction
-- Visualization
-- Interactive testing
-
-#### C. Streamlit Web App 🌟
+#### Streamlit Web App 🌟
 
 ```bash
 cd app
@@ -352,9 +303,7 @@ Giao diện web với:
 - Xem văn bản sau preprocessing
 - Thông tin model metadata
 
-**Truy cập:** http://localhost:8501
-
-#### D. Python API
+#### Python API
 
 ```python
 from app.predict import SentimentPredictor
@@ -382,58 +331,30 @@ big-ex/
 │   ├── models/                   # Models đã train (generated)
 │   │   ├── sentiment_pipeline.pkl
 │   │   ├── label_encoder.pkl
-│   │   ├── stopwords.pkl
 │   │   └── model_metadata.pkl
-│   ├── preprocess.py             # Module tiền xử lý
-│   ├── train.py                  # Script training
-│   ├── predict.py                # Module inference/prediction
+│   ├── main.ipynb                # Script training
 │   ├── utils.py                  # Utility functions
-│   └── streamlit_app.py          # Streamlit web app
+│   └── app.py                    # Streamlit web app
 │
 ├── demo/                         # Demo scripts
-│   ├── demo.ipynb                # Jupyter notebook demo
 │   └── demo_inference.py         # Python script demo
 │
-├── data/                         # Data mẫu và hướng dẫn
-│   ├── README.md                 # Hướng dẫn tải data
-│   └── vietnamese-stopwords.txt  # Stopwords list
-│
-├── reports/                      # Báo cáo
-│   └── [Đặt file báo cáo .pdf/.docx ở đây]
-│
-├── slides/                       # Slide thuyết trình
-│   └── [Đặt file slide .pptx/.pdf ở đây]
-│
-├── archive/                      # Dataset gốc (gitignored)
+├── data/                         # Data
 │   ├── UIT-VSFC-train.json
 │   ├── UIT-VSFC-dev.json
 │   ├── UIT-VSFC-test.json
 │   └── vietnamese-stopwords.txt
 │
-├── main.ipynb                    # Notebook chính (EDA + Training)
+├── reports/                      # Báo cáo
+│   └── Report.docx
+│
+├── slides/                       # Slide thuyết trình
+│   └── Report.pptx
+│
 ├── requirements.txt              # Dependencies
 ├── .gitignore                    # Git ignore rules
-└── README.md                     # Documentation (file này)
+└── README.md                     # Documentation
 ```
-
-### Giải thích thư mục
-
-- **`app/`**: Chứa toàn bộ source code chính của dự án
-  - `preprocess.py`: Các hàm tiền xử lý văn bản
-  - `train.py`: Script để train model từ đầu
-  - `predict.py`: Class và hàm để inference
-  - `streamlit_app.py`: Web app demo
-
-- **`demo/`**: Các script/notebook để demo nhanh
-  - Dành cho người dùng cuối muốn test model
-  - Không cần chạy lại training
-
-- **`data/`**: Chỉ chứa data mẫu nhỏ hoặc hướng dẫn tải data
-  - Không upload dataset lớn lên GitHub
-
-- **`reports/`** & **`slides/`**: Tài liệu báo cáo và thuyết trình
-
-- **`archive/`**: Dataset gốc (không commit lên GitHub do .gitignore)
 
 ---
 
@@ -441,15 +362,13 @@ big-ex/
 
 ### Thông tin nhóm
 
-| Họ và tên | Mã SV | Email | Vai trò |
-|-----------|-------|-------|---------|
-| [Tên SV 1] | [MSSV1] | [email1@student.edu.vn] | Leader, ML Engineer |
-| [Tên SV 2] | [MSSV2] | [email2@student.edu.vn] | Data Analyst |
-| [Tên SV 3] | [MSSV3] | [email3@student.edu.vn] | Developer |
+| Họ và tên | Mã SV | Email |
+|-----------|-------|-------|
+| Hoàng Hải Đăng | 12423009 | [email1@student.edu.vn] |
+| Trần Khánh Toàn | 12423035 | tkt310505@gmail.com |
 
-**Lớp:** [Tên lớp]  
-**Giảng viên hướng dẫn:** [Tên giảng viên]  
-**Học kỳ:** [HK/Năm học]
+**Lớp:** 124231
+**Giảng viên hướng dẫn:** Assoc. Prof. Dr. Van-Hau Nguyen
 
 ---
 
@@ -457,8 +376,7 @@ big-ex/
 
 1. **Dataset:** [UIT-VSFC](https://github.com/sonvx/vietnam-sentiment-corpus) - Vietnamese Students' Feedback Corpus
 2. **Vietnamese NLP:** [Underthesea](https://github.com/undertheseanlp/underthesea) - Vietnamese Natural Language Processing
-3. **Scikit-learn:** [Text Classification Guide](https://scikit-learn.org/stable/tutorial/text_analytics/working_with_text_data.html)
-4. **Paper:** Sentiment Analysis Techniques and Applications
+3. **Scikit-learn:** [Example](https://scikit-learn.org/stable/auto_examples/text/index.html)
 
 ---
 
@@ -483,14 +401,4 @@ Dự án đã thành công trong việc:
 - Tích hợp API RESTful
 
 ---
-
-## 📧 Liên Hệ
-
-Nếu có câu hỏi hoặc góp ý, vui lòng liên hệ:
-- Email: [your-email@example.com]
-- GitHub Issues: [Link to issues page]
-
----
-
 **⭐ Nếu thấy dự án hữu ích, hãy cho chúng tôi một star trên GitHub!**
-
